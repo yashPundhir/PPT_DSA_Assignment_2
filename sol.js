@@ -31,6 +31,77 @@ function maxPairSum(nums) {
 }
 
 /*
+
+  Question 5
+
+Given an integer array nums, find three numbers whose product is maximum and return the maximum product.
+
+Example 1:
+Input: nums = [1,2,3]
+Output: 6
+
+*/
+
+// Solution 5
+
+// function maxProduct(nums) {
+// 	if (nums.length <= 2) {
+// 		return "three largest numbers product not possible";
+// 	}
+
+// 	let count = 0;
+// 	let maxProd = 1;
+
+// 	nums.sort((a, b) => a - b);
+
+// 	for (const num of nums) {
+// 		if (num < 0) {
+// 			count = count + 1;
+// 		}
+// 	}
+// 	if (count === 0) {
+// 		maxProd =
+// 			maxProd *
+// 			nums[nums.length - 1] *
+// 			nums[nums.length - 2] *
+// 			nums[nums.length - 3];
+
+// 		return maxProd;
+// 	} else if (count >= 2) {
+// 		let prodNeg = 1;
+// 		let prodPos = 1;
+
+// 		prodNeg = prodNeg * nums[0] * nums[1] * nums[nums.length - 1];
+
+// 		prodPos =
+// 			prodPos *
+// 			nums[nums.length - 1] *
+// 			nums[nums.length - 2] *
+// 			nums[nums.length - 3];
+
+// 		if (prodNeg > prodPos) {
+// 			return prodNeg;
+// 		} else if (prodNeg < prodPos) {
+// 			return prodPos;
+// 		}
+// 	}
+// }
+
+function maxProduct(nums) {
+	if (nums.length < 3) {
+		return "product not possible";
+	}
+
+	nums.sort((a, b) => a - b);
+
+	const n = nums.length;
+	const productPos = nums[n - 1] * nums[n - 2] * nums[n - 3];
+	const productNeg = nums[0] * nums[1] * nums[n - 1];
+
+	return Math.max(productPos, productNeg);
+}
+
+/*
 Question 6
 
 Given an array of integers nums which is sorted in ascending order, and an integer target,
