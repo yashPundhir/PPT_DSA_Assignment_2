@@ -32,6 +32,118 @@ function maxPairSum(nums) {
 
 /*
 
+Question 2
+Alice has n candies, where the ith candy is of type candyType[i]. Alice noticed that she started to gain weight, so she visited a doctor. 
+
+The doctor advised Alice to only eat n / 2 of the candies she has (n is always even). Alice likes her candies very much, and she wants to eat the maximum number of different types of candies while still following the doctor's advice. 
+
+Given the integer array candyType of length n, return the maximum number of different types of candies she can eat if she only eats n / 2 of them.
+
+Example 1:
+Input: candyType = [1,1,2,2,3,3]
+Output: 3
+
+Explanation: Alice can only eat 6 / 2 = 3 candies. Since there are only 3 types, she can eat one of each type.
+
+*/
+
+// Solution
+
+function maxCandies(candyType) {
+	let uniqueCandyType = new Set(candyType);
+	let maxCandiesAlice = Math.floor(candyType.length / 2);
+	return Math.min(uniqueCandyType.size, maxCandiesAlice);
+}
+
+let candyType = [1, 1, 2, 2, 3, 3];
+console.log(maxCandies(candyType));
+
+/*
+
+Question 3
+We define a harmonious array as an array where the difference between its maximum value
+and its minimum value is exactly 1.
+
+Given an integer array nums, return the length of its longest harmonious subsequence
+among all its possible subsequences.
+
+A subsequence of an array is a sequence that can be derived from the array by deleting some or no elements without changing the order of the remaining elements.
+
+Example 1:
+Input: nums = [1,3,2,2,5,2,3,7]
+Output: 5
+
+Explanation: The longest harmonious subsequence is [3,2,2,2,3].
+
+*/
+
+// Solution
+
+function findLHS(nums) {
+	const frequency = {};
+
+	for (let num of nums) {
+		frequency[num] = (frequency[num] || 0) + 1;
+	}
+
+	let maxLen = 0;
+
+	for (let num in frequency) {
+		num = parseInt(num);
+		if (frequency[num + 1]) {
+			const length = frequency[num] + frequency[num + 1];
+			maxLen = Math.max(maxLen, length);
+		}
+	}
+
+	return maxLen;
+}
+
+const nums = [1, 3, 2, 2, 5, 2, 3, 7];
+console.log(findLHS(nums)); // Output: 5
+
+/*
+
+Question 4
+You have a long flowerbed in which some of the plots are planted, and some are not.
+However, flowers cannot be planted in adjacent plots.
+Given an integer array flowerbed containing 0's and 1's, where 0 means empty and 1 means not empty, and an integer n, return true if n new flowers can be planted in the flowerbed without violating the no-adjacent-flowers rule and false otherwise.
+
+Example 1:
+Input: flowerbed = [1,0,0,0,1], n = 1
+Output: true
+
+*/
+
+// Solution
+
+function canPlaceFlowers(flowerbed, n) {
+	let count = 0;
+
+	for (let i = 0; i < flowerbed.length; i++) {
+		if (flowerbed[i] === 0) {
+			// Check if both adjacent plots are empty or out of bounds
+			const isPrevEmpty = i === 0 || flowerbed[i - 1] === 0;
+			const isNextEmpty = i === flowerbed.length - 1 || flowerbed[i + 1] === 0;
+
+			if (isPrevEmpty && isNextEmpty) {
+				flowerbed[i] = 1; // Plant a flower
+				count++;
+			}
+		}
+	}
+
+	return count >= n;
+}
+
+// Test the function
+const flowerbed = [1, 0, 0, 0, 1];
+const n = 1;
+const result = canPlaceFlowers(flowerbed, n);
+console.log(result);
+
+/*
+
   Question 5
 
 Given an integer array nums, find three numbers whose product is maximum and return the maximum product.
@@ -167,3 +279,39 @@ function checkMonotonic(nums) {
 	}
 	return true;
 }
+
+/*
+
+Question 8
+You are given an integer array nums and an integer k.
+
+In one operation, you can choose any index i where 0 <= i < nums.length and change nums[i] to nums[i] + x where x is an integer from the range [-k, k]. You can apply this operation at most once for each index i.
+
+The score of nums is the difference between the maximum and minimum elements in nums.
+
+Return the minimum score of nums after applying the mentioned operation at most once for each index in it.
+
+Example 1:
+Input: nums = [1], k = 0
+Output: 0
+
+Explanation: The score is max(nums) - min(nums) = 1 - 1 = 0.
+
+*/
+
+// Solution
+
+function minScore(nums, k) {
+	let minNum = Math.min(...nums);
+	let maxNum = Math.max(...nums);
+
+	if (minNum + k >= maxNum - k) {
+		return maxNum - minNum;
+	} else {
+		return maxNum - k - (minNum + k);
+	}
+}
+
+const nums = [1];
+const k = 0;
+console.log(minScore(nums, k)); // Output: 0
